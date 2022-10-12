@@ -3,7 +3,7 @@ import { RenderPatientAvatar } from '../../Components/PatientAvatar/index.js';
 import { AppointmentInfoCard } from '../../Components/AppointmentInfoCard/index.js';
 
 
-export const Home = () => {
+export const HomeScreen = () => {
 
     const addPatientButton_Pressed = () => { }
 
@@ -18,8 +18,7 @@ export const Home = () => {
     }
     return (
         <View style={styles.view_container}>
-            <ImageBackground source={require('../../assets/background.jpg')} resizeMode="cover" style={{ flex: 1 }}>
-
+            <ImageBackground source={require('../../assets/background.jpg')} resizeMode="cover">
                 <View style={styles.view_welcomeInfo}>
                     <Image source={require('../../assets/usericon.jpg')} style={{ height: 50, width: 50 }} />
                     <Text style={{ marginLeft: 20, color: '#FFFFFF', fontSize: 20, fontWeight: "bold" }}>Welcome Back! {'\n'} Dr. Jim Ryan</Text>
