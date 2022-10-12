@@ -4,6 +4,7 @@ export const PatientScreen = () => {
     return (
         <View>
             <Text>This is patient screen!</Text>
+            <Text>Test Commit / Push</Text>
         </View>
     )
 }
