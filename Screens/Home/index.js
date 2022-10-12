@@ -17,7 +17,7 @@ export const Home = () => {
 
     }
     return (
-        <View style={{ flex: 1 }}>
+        <View style={styles.view_container}>
             <ImageBackground source={require('../../assets/background.jpg')} resizeMode="cover" style={{ flex: 1 }}>
 
                 <View style={styles.view_welcomeInfo}>
@@ -74,13 +74,16 @@ export const Home = () => {
 }
 
 const styles = StyleSheet.create({
+    view_container:{
+        flex:1,
+    },
     view_welcomeInfo: {
-        height: 10,
+        width:'90%',
         padding: 8,
         flexDirection: 'row',
         marginTop: 70,
         height: 70,
-        marginLeft: 15
+        marginLeft: '5%'
     },
     container_view_createPatient: {
         justifyContent: 'center',
