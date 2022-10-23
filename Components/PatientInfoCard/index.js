@@ -1,26 +1,25 @@
 import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import {AppointmentDetail} from '../../Screens/AppointmentDetailScreens/index.js'
 
-export const AppointmentInfoCard = (props) => {
+export const PatientInfoCard = (props) => {
     const navigation = useNavigation();
     const { name, age, sex, ID, mobile, time, photoUrl } = props.patientInfo
 
-    const navigateToAppointmentDetailPage = (props) => {
-        navigation.navigate('AppointmentDetail',{props:props})
+    const navigateToPatientListlPage = (props) => {
+        navigation.navigate('PatientList',{props:props})
     }
 
     return (
         <View style={styles.view_container}>
             <View style={{ flexDirection: 'row' }}>
                 <View style={{ flexDirection: 'row' }}>
-                    <Image source={require('../../assets/patientAvatar/patient1.jpeg')} style={{ height: 55, width: 55, borderRadius: 100 }} />
+                    <Image source={require('../../assets/patientAvatar/patient5.jpg')} style={{ height: 55, width: 55, borderRadius: 100 }} />
                     <View>
                         <Text style={{ fontSize: 17, marginLeft: 10, fontWeight: 'bold' }}>{name}</Text>
                         <Text style={styles.text_style}>{time}</Text>
                         <Text style={styles.text_style}>{sex}  {age}yrs</Text>
                         <Text style={styles.text_style}>ID:{ID}  Mobile:{mobile}</Text>
-                        <TouchableOpacity style={styles.touchableOpacity_viewDetail} onPress={() => navigateToAppointmentDetailPage(props)}>
+                        <TouchableOpacity style={styles.touchableOpacity_viewDetail} onPress={() => navigateToPatientListPage(props)}>
                             <Text style={{ fontSize: 12, marginTop: 5, fontWeight: 'bold', color:'#FFFFFF' }}>View Detail</Text>
                         </TouchableOpacity>
                     </View>

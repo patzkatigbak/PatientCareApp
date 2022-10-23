@@ -13,12 +13,18 @@ export const HomeScreen = () => {
         age: "19",
         ID: "293887263",
         mobile: "1828773627",
-        time: "25 Aug 13:00 pm"
-
+        email: "patient@gmail.com",
+        time: "25 Aug 13:00 pm",
+        photoUrl: require("../../assets/patientAvatar/patient1.jpeg"),
+        height: "1.65m",
+        weight: "70Kg",
+        DOB: "2-16-1982",
+        address: '17265 shopper Ave, Toronto, ON, M1H2ES',
+        symptom: 'fever'
     }
     return (
         <View style={styles.view_container}>
-            <ImageBackground source={require('../../assets/background.jpg')} resizeMode="cover">
+            <ImageBackground source={require('../../assets/background.jpg')} resizeMode="cover" style={{flex:1}}>
                 <View style={styles.view_welcomeInfo}>
                     <Image source={require('../../assets/usericon.jpg')} style={{ height: 50, width: 50 }} />
                     <Text style={{ marginLeft: 20, color: '#FFFFFF', fontSize: 20, fontWeight: "bold" }}>Welcome Back! {'\n'} Dr. Jim Ryan</Text>

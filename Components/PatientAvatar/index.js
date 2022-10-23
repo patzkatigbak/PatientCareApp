@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, FlatList } from 'react-native';
 
-export const RenderPatientAvatar = () => {
+export const RenderPatientAvatar = ({navigation}) => {
 
     const testData = [
         {
