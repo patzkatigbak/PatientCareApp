@@ -1,25 +1,31 @@
+import React from 'react'
 import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 export const PatientInfoCard = (props) => {
+    const [patient,setPatient] = React.useState({})
     const navigation = useNavigation();
-    const { name, age, sex, ID, mobile, time, photoUrl } = props.patientInfo
+    const { firstName,lastName,sex,phoneNumber,dateOfBirth, imageUri} = props.patient
 
-    const navigateToPatientListlPage = (props) => {
-        navigation.navigate('PatientList',{props:props})
+    const navigateToPatientDetailPage = () => {
+        navigation.navigate('PatientDetail',{patient:patient})
     }
+
+    React.useEffect(() => {
+        setPatient(props.patient)
+    }, [])
 
     return (
         <View style={styles.view_container}>
             <View style={{ flexDirection: 'row' }}>
                 <View style={{ flexDirection: 'row' }}>
-                    <Image source={require('../../assets/patientAvatar/patient5.jpg')} style={{ height: 55, width: 55, borderRadius: 100 }} />
+                    <Image  source={{ uri: imageUri }} style={{ height: 55, width: 55, borderRadius: 100 }} />
                     <View>
-                        <Text style={{ fontSize: 17, marginLeft: 10, fontWeight: 'bold' }}>{name}</Text>
-                        <Text style={styles.text_style}>{time}</Text>
-                        <Text style={styles.text_style}>{sex}  {age}yrs</Text>
-                        <Text style={styles.text_style}>ID:{ID}  Mobile:{mobile}</Text>
-                        <TouchableOpacity style={styles.touchableOpacity_viewDetail} onPress={() => navigateToPatientListPage(props)}>
+                        <Text style={{ fontSize: 17, marginLeft: 10, fontWeight: 'bold' }}>{firstName} {lastName}</Text>
+                        <Text style={styles.text_style}>Sex: {sex}</Text>
+                        <Text style={styles.text_style}>Mobile:{phoneNumber}</Text>
+                        <Text style={styles.text_style}>Date of Birth:{dateOfBirth}</Text>
+                        <TouchableOpacity style={styles.touchableOpacity_viewDetail} onPress={navigateToPatientDetailPage}>
                             <Text style={{ fontSize: 12, marginTop: 5, fontWeight: 'bold', color:'#FFFFFF' }}>View Detail</Text>
                         </TouchableOpacity>
                     </View>
@@ -34,7 +40,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         padding: 10,
         borderRadius: 20,
-        flexDirection: 'column'
+        flexDirection: 'column',
+        marginTop:10
     },
     view_patientAvatar: {
         paddingBottom: 10,

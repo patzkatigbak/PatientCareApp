@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, ImageBackground, Image, TextInput } from 'react-native';
 import {SpliteLine} from '../../Components/SpliteLine/index.js'
 
-export const AppointmentDetail = ({ navigation, route }) => {
+export const AppointmentDetail = ({route }) => {
     const { name, age, sex, ID, mobile, time, photoUrl, symptom, email } = route.params.props.patientInfo
     return (
         <View style = {styles.view_Container}>

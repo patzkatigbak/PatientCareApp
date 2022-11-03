@@ -36,7 +36,7 @@ export const AppointmentScreen = () => {
                     </View>
                 </View>
                 <View style={styles.view_AppointmentList}>
-                    <ScrollView s>
+                    <ScrollView>
                         <View style={{ marginTop: 10 }}>
                             <AppointmentInfoCard patientInfo={testPatientData} />
                         </View>

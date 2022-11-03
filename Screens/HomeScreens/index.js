@@ -1,11 +1,31 @@
+import React, {useContext} from 'react'
 import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { RenderPatientAvatar } from '../../Components/PatientAvatar/index.js';
 import { AppointmentInfoCard } from '../../Components/AppointmentInfoCard/index.js';
+import { httpGetRequest } from '../../utils/http.js'
+import {UserContext} from '../../UserContext.js'
 
+export const HomeScreen = ({ navigation, route }) => {
+    const {user} = useContext(UserContext)
+    const {imageUri} = route.params.userInfo
 
-export const HomeScreen = () => {
+    
+    const addPatientButton_Pressed = () => { 
+        navigation.navigate('CreatePatient',{id:user._id})
+    }
 
-    const addPatientButton_Pressed = () => { }
+    const viewAllPatientsButton_Pressed = () => {
+        navigation.navigate('NavigationBar', {
+            screen: 'Patient',
+            params: { id: user._id},
+          });
+    }
+
+    const RenderPatientAvatarList = ()=>{
+        return (
+            <RenderPatientAvatar style={styles.component_patientAvatar} id={user._id}/>
+        )
+    }
 
     const testPatientData = {
         name: "Jessica Bober",
@@ -26,8 +46,8 @@ export const HomeScreen = () => {
         <View style={styles.view_container}>
             <ImageBackground source={require('../../assets/background.jpg')} resizeMode="cover" style={{flex:1}}>
                 <View style={styles.view_welcomeInfo}>
-                    <Image source={require('../../assets/usericon.jpg')} style={{ height: 50, width: 50 }} />
-                    <Text style={{ marginLeft: 20, color: '#FFFFFF', fontSize: 20, fontWeight: "bold" }}>Welcome Back! {'\n'} Dr. Jim Ryan</Text>
+                    <Image source={{uri:imageUri}} style={{ height: 50, width: 50, borderRadius:100 }} />
+                    <Text style={{ marginLeft: 10, marginTop:10, color: '#FFFFFF', fontSize: 25, fontWeight: "bold" }}>Welcome Back Doctor!</Text>
                 </View>
 
                 <View style={styles.container_view_createPatient}>
@@ -44,18 +64,19 @@ export const HomeScreen = () => {
 
                 <View style={styles.view_patientsList}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Text style={{ fontSize: 20, color: '#FFFFFF' }}>Patients List</Text>
-                        <TouchableOpacity style={styles.touchableOpacity_viewAll}>
+                        <Text style={{ fontSize: 20, color: '#FFFFFF',fontWeight:'bold' }}>Patients List</Text>
+                        <TouchableOpacity style={styles.touchableOpacity_viewAll} onPress={viewAllPatientsButton_Pressed}>
                             <Text style={{ fontSize: 17, color: '#000000' }}>View All</Text>
                         </TouchableOpacity>
                     </View>
-                    <RenderPatientAvatar style={styles.component_patientAvatar} />
+                    {/* {console.log("patients.length:"+patients.length)} */}
+                    {RenderPatientAvatarList()}
                 </View>
 
                 <View style={styles.view_upcomingAppointment}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Text style={{ fontSize: 20, color: '#FFFFFF' }}>Upcoming Appointment</Text>
-                        <TouchableOpacity style={styles.touchableOpacity_viewAll}>
+                        <Text style={{ fontSize: 20, color: '#FFFFFF',fontWeight:'bold'  }}>Upcoming Appointment</Text>
+                        <TouchableOpacity style={styles.touchableOpacity_viewAll} >
                             <Text style={{ fontSize: 17, color: '#000000' }}>View All</Text>
                         </TouchableOpacity>
                     </View>
@@ -131,6 +152,7 @@ const styles = StyleSheet.create({
     },
     view_upcomingAppointment: {
         width: '90%',
-        marginLeft: '5%'
+        marginLeft: '5%',
+        marginTop:-10
     },
 });

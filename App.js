@@ -1,3 +1,4 @@
+import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet } from 'react-native';
@@ -8,7 +9,10 @@ import { HomeScreen } from './Screens/HomeScreens/index.js';
 import { AppointmentDetail } from './Screens/AppointmentDetailScreens/index.js';
 import { PatientScreen } from './Screens/PatientScreens/index.js';
 import { AppointmentScreen } from './Screens/AppointmentScreens/index.js';
+import { PatientDetailScreen } from './Screens/PatientDetailScreens/index.js'
 import { SetUpScreen } from './Screens/SetUpScreens/index.js'
+import { CreatePatientScreen } from './Screens/CreatePatientScreens/index.js'
+import { UserContext } from './UserContext.js'
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -22,15 +26,14 @@ export const NavigationBar = () => {
           backgroundColor: 'rgba(34,36,40,1)',
           position: 'absolute',
           borderTopWidth: 0,
+          activeTintColor: "#50d3a7",
+          inactiveTintColor: "gray",
+          labelStyle: {
+            fontSize: 25,
+          },
         },
       })}
-      tabBarOptions={{
-        activeTintColor: "#50d3a7",
-        inactiveTintColor: "gray",
-        labelStyle: {
-          fontSize: 15,
-        },
-      }}>
+    >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Patient" component={PatientScreen} />
       <Tab.Screen name="Appointment" component={AppointmentScreen} />
@@ -41,41 +44,43 @@ export const NavigationBar = () => {
 
 
 export default function App() {
-  var test = false
+  const [user, setUser] = React.useState(null)
+  const [patients,setPatients] = React.useState([])
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="LoginScreen"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="RegisterScreen"
-          component={RegisterScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="AppointmentDetail"
-          component={AppointmentDetail}
-        />
-        <Stack.Screen
-          name="NavigationBar"
-          component={NavigationBar}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="SetUpScreen"
-          component={SetUpScreen}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <UserContext.Provider value = {{user,setUser,patients,setPatients}}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="LoginScreen"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="RegisterScreen"
+            component={RegisterScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="NavigationBar"
+            component={NavigationBar}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="AppointmentDetail"
+            component={AppointmentDetail}
+          />
+           <Stack.Screen
+            name="PatientDetail"
+            component={PatientDetailScreen}
+          />
+          <Stack.Screen
+            name="CreatePatient"
+            component={CreatePatientScreen}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </UserContext.Provider>
   );
 }
 

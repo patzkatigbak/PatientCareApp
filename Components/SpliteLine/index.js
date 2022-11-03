@@ -10,9 +10,10 @@ export const SpliteLine = () => {
 
 const styles = StyleSheet.create({
     style:{
-        width:'85%',
+        width:'100%',
         height:2,
         backgroundColor:'#B6B6B4',
-        marginTop:5
+        marginTop:5,
+        opacity:0.5
     }
 })

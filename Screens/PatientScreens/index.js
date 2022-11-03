@@ -1,20 +1,20 @@
+import React, {useContext} from 'react'
 import { StyleSheet, TextInput,Text, View, ImageBackground, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { PatientInfoCard } from '../../Components/PatientInfoCard/index.js';
+import { useNavigation } from '@react-navigation/native';
+import { httpGetRequest } from '../../utils/http.js'
+import {UserContext} from '../../UserContext.js'
+import {PatientList} from '../../Components/PatientList/index.js'
 
-export const PatientScreen = () => {
 
-    const testPatientData = {
-        name: "Jessica Ryan",
-        sex: "Female",
-        age: "12",
-        ID: "12344555",
-        mobile: "1828773627",
-        time: "25 Aug 13:00 pm",
-        photoUrl: require("../../assets/patientAvatar/patient5.jpg"),
-        height: "1.65m",
-        weight: "70Kg",
-        DOB: "2-16-2010",
-        address: '17265 shopper Ave, Toronto, ON, M1H2ES'
+export const PatientScreen = ({props}) => {
+    const navigation = useNavigation();
+    const [patients,setPatients] = React.useState([])
+
+    const renderPatientList = () => {
+        return (
+            <PatientList/>
+        )
     }
 
     return (
@@ -41,28 +41,8 @@ export const PatientScreen = () => {
                     </View>
                 </View>
                 <View style={styles.view_ResultList}>
-                    <ScrollView s>
-                        <View style={{ marginTop: 10 }}>
-                            <PatientInfoCard patientInfo={testPatientData} />
-                        </View>
-                        <View style={{ marginTop: 10 }}>
-                            <PatientInfoCard patientInfo={testPatientData} />
-                        </View>
-                        <View style={{ marginTop: 10 }}>
-                            <PatientInfoCard patientInfo={testPatientData} />
-                        </View>
-                        <View style={{ marginTop: 10 }}>
-                            <PatientInfoCard patientInfo={testPatientData} />
-                        </View>
-                        <View style={{ marginTop: 10 }}>
-                            <PatientInfoCard patientInfo={testPatientData} />
-                        </View>
-                        <View style={{ marginTop: 10 }}>
-                            <PatientInfoCard patientInfo={testPatientData} />
-                        </View>
-                        <View style={{ marginTop: 10 }}>
-                            <PatientInfoCard patientInfo={testPatientData} />
-                        </View>
+                    <ScrollView>
+                        {renderPatientList()}
                     </ScrollView>
                 </View>
             </ImageBackground>

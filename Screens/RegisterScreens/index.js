@@ -1,6 +1,8 @@
+import React from 'react'
 import { StyleSheet, TextInput, Text, View, ImageBackground, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import React from 'react'
+import * as ImagePicker from 'expo-image-picker';
+import { httpPostRequest } from '../../utils/http.js'
 
 export const RegisterScreen = () => {
 
@@ -10,39 +12,59 @@ export const RegisterScreen = () => {
     const [dateOfBirth, setDateOfBirth] = React.useState("")
     const [emailAddress, setEmailAddress] = React.useState("")
     const [phoneNumber, setPhoneNumber] = React.useState("")
-
+    const [imageUri, setImageUri] = React.useState(null);
+    const [imageType, setImageType] = React.useState(null);
+    const [imageName, setImageName] = React.useState(null);
     const navigation = useNavigation();
+
     const navigateToLoginPage = () => {
         navigation.navigate('LoginScreen')
     }
 
     const submitButton_Pressed = () => {
-        
-        fetch('http://127.0.0.1:5000/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(
-                {
-                    username: username,
-                    password:password,
-                    occupation: occupation,
-                    dateOfBirth: dateOfBirth,
-                    emailAddress: emailAddress,
-                    phoneNumber: phoneNumber
-                }
-            )
-        }).then((response) => {
-            if (response.ok) {
-                console.log("Success!")
-                alert('Registration Successful');
-                navigation.navigate('LoginScreen')
+        if (imageUri == null) { alert('Please upload image photo!'); return; }
+
+        //console.log("imageUri is:" + imageUri)
+
+        const data = JSON.stringify(
+            {
+                username: username,
+                password: password,
+                occupation: occupation,
+                dateOfBirth: dateOfBirth,
+                emailAddress: emailAddress,
+                phoneNumber: phoneNumber,
+                imageUri: imageUri,
+                imageType: imageType,
+                imageName: imageName
             }
-        }).catch((err) => {
-            console.error(err);
-        });
+        )
+
+        httpPostRequest('register', 'POST', data).then(response => {
+            //console.log(response)
+        }).catch(err => {
+            //console.log(err)
+        })
     }
+
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        //console.log(result);
+
+        if (!result.cancelled) {
+            setImageUri(result.uri);
+            setImageType(result.type);
+            setImageName(username);
+        }
+        
+    };
 
     const returnText = "< Return"
 
@@ -80,6 +102,17 @@ export const RegisterScreen = () => {
                     <TextInput style={styles.text_inputStyle} onChangeText={text => setPhoneNumber(text)}></TextInput>
                 </View>
                 <View style={styles.view_fieldStyle}>
+                    <View style={{flexDirection:'row'}}>
+                        <TouchableOpacity
+                            style={styles.touchableOpacity_UploadAvatar}
+                            onPress={pickImage}
+                        >
+                            <Text style={{ color: '#FFFFFF', fontWeight: 'bold' }}>Upload Avatar</Text>
+                        </TouchableOpacity>
+                    </View>
+                    {imageUri && <Text style={{marginLeft:5,fontSize:15}}>Image has been uploaded!</Text>}
+                </View>
+                <View style={styles.view_fieldStyle}>
                     <TouchableOpacity
                         style={styles.touchableOpacity_Submit}
                         onPress={submitButton_Pressed}
@@ -87,6 +120,10 @@ export const RegisterScreen = () => {
                         <Text style={{ color: '#FFFFFF', fontWeight: 'bold' }}>Submit</Text>
                     </TouchableOpacity>
                 </View>
+                {/* <View style={styles.view_fieldStyle}>
+                    <Text title="Pick an image from camera roll" onPress={pickImage} style={{fontSize:80}}>Click Me!</Text>
+                    {imageUri && <Image source={{ uri: imageUri }} style={{ width: 200, height: 200 }} />}
+                </View> */}
             </View>
         </View>
     )
@@ -131,5 +168,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 20,
         borderRadius: 20
+    },
+    touchableOpacity_UploadAvatar: {
+        width: '30%',
+        height: 30,
+        backgroundColor: '#FFA500',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10
     }
 })
